@@ -9,6 +9,7 @@ import { fetchAudio } from './tts/azure'
 
 import { OpenaiTTS } from './tts/openai'
 import { GenerateImages } from './images'
+import { handleSpeechToText } from './tts/azure-stt'
 
 const app = express()
 const router = express.Router()
@@ -123,6 +124,8 @@ app.post('/generate-image', async (req, res) => {
     res.send({ status: 'Fail', message: "Failed to generate image", data: null })
   }
 });
+
+app.post('/api/speech-to-text', handleSpeechToText);
 
 app.use('', router)
 app.use('/api', router)

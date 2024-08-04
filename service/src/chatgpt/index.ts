@@ -207,6 +207,7 @@ function setupProxy(options: SetProxyOptions) {
   }
   else if (isNotEmptyString(process.env.HTTPS_PROXY) || isNotEmptyString(process.env.ALL_PROXY)) {
     const httpsProxy = process.env.HTTPS_PROXY || process.env.ALL_PROXY
+    // console.log(httpsProxy)
     if (httpsProxy) {
       const agent = new HttpsProxyAgent(httpsProxy)
       options.fetch = (url, options) => {

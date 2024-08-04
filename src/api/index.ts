@@ -91,3 +91,11 @@ export async function GenerateImages(
     data,
   })
 }
+
+export async function recognizeFromMic(audio: string) {
+  const data = { audio }
+  return await post({
+    url: '/speech-to-text',
+    data,
+  })
+}

@@ -60,5 +60,4 @@ HTTPS_PROXY=
 AZURE_TTS_KEY=
 AZURE_TTS_REGION=southeastasia
 ```
-
-doc [README-ZH](./README.zh.md)
+其余说明详见原项目文档： [README-ZH](./README.zh.md)
