@@ -5,11 +5,10 @@ import { chatConfig, chatReplyProcess, currentModel } from './chatgpt'
 import { auth } from './middleware/auth'
 import { limiter } from './middleware/limiter'
 import { isNotEmptyString } from './utils/is'
-import { fetchAudio } from './tts/azure'
+import { fetchAudio, fetchToken } from './tts/azure'
 
 import { OpenaiTTS } from './tts/openai'
 import { GenerateImages } from './images'
-import { handleSpeechToText } from './tts/azure-stt'
 
 const app = express()
 const router = express.Router()
@@ -90,7 +89,7 @@ router.post('/verify', async (req, res) => {
 
 
 //tts
-app.post('/tts', async (req, res) => {
+router.post('/tts', async (req, res) => {
   try {
     const data = req.body;
     const provider = data.provider;
@@ -109,7 +108,7 @@ app.post('/tts', async (req, res) => {
 });
 
 //images
-app.post('/generate-image', async (req, res) => {
+router.post('/generate-image', async (req, res) => {
   try {
     const data = req.body;
     const prompt = data.prompt
@@ -125,8 +124,15 @@ app.post('/generate-image', async (req, res) => {
   }
 });
 
-app.post('/api/speech-to-text', handleSpeechToText);
-
+router.get('/azuretoken',async (req, res) => {
+  try {
+    const token = await fetchToken()
+    res.send({ status: 'Success', message: null, data: token })
+  } catch (error) {
+    console.error('Error in token handler:',error);
+    res.send({ status: 'Fail', message: "Failed to get token", data: null })
+  }
+})
 app.use('', router)
 app.use('/api', router)
 app.set('trust proxy', 1)

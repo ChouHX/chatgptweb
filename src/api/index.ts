@@ -1,5 +1,5 @@
 import type { AxiosProgressEvent, GenericAbortSignal } from 'axios'
-import { post } from '@/utils/request'
+import { get, post } from '@/utils/request'
 import { useAuthStore, useSettingStore } from '@/store'
 
 export function fetchChatAPI<T = any>(
@@ -97,5 +97,11 @@ export async function recognizeFromMic(audio: string) {
   return await post({
     url: '/speech-to-text',
     data,
+  })
+}
+
+export async function fetchAzureToken<T>() {
+  return get<T>({
+    url: '/azuretoken',
   })
 }

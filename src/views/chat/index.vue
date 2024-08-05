@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import type { Ref } from 'vue'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, defineAsyncComponent  } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { NAutoComplete, NButton, NInput, useDialog, useMessage } from 'naive-ui'
@@ -15,7 +15,9 @@ import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { useChatStore, usePromptStore, useSettingStore } from '@/store'
 import { GenerateImages, fetchChatAPIProcess } from '@/api'
 import { t } from '@/locales'
-import AudioRecoder from "@/components/common/Setting/STT.vue";
+
+
+const AudioRecoder = defineAsyncComponent(()=>import("@/components/common/Setting/STT.vue"))
 
 
 let controller = new AbortController()
@@ -505,7 +507,12 @@ const handleRecordingEnded = (message: string) => {
               <SvgIcon icon="ri:chat-history-line" />
             </span>
           </HoverButton>
-          <AudioRecoder @recordingEnded="handleRecordingEnded"/>
+          <Suspense>
+            <AudioRecoder @recordingEnded="handleRecordingEnded"/>
+            <template #fallback>
+              Loading...
+            </template>
+          </Suspense>
           <!-- <HoverButton @click="toggleUsingContext">
             <span class="text-xl text-[#4f555e] dark:text-white">
               <SvgIcon icon="ant-design:audio-outlined" />
@@ -514,6 +521,7 @@ const handleRecordingEnded = (message: string) => {
           <NAutoComplete v-model:value="prompt" :options="searchOptions" :render-label="renderOption">
             <template #default="{ handleInput, handleBlur, handleFocus }">
               <NInput
+                clearable
                 ref="inputRef"
                 v-model:value="prompt"
                 type="textarea"

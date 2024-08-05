@@ -5,7 +5,6 @@ import General from './General.vue'
 import Advanced from './Advanced.vue'
 // import About from './About.vue'
 import TTS from './TTS.vue'
-import AudioRecorder from "./STT.vue";
 import IMG from './Image.vue'
 import { useAuthStore } from '@/store'
 import { SvgIcon } from '@/components/common'
@@ -81,13 +80,6 @@ const show = computed({
           </template>
           <IMG />
         </NTabPane>
-        <!-- <NTabPane name="STT" tab="STT">
-          <template #tab>
-            <SvgIcon class="text-lg" icon="ion:image" />
-            <span class="ml-2">STT</span>
-          </template>
-          <AudioRecorder />
-        </NTabPane> -->
       </NTabs>
     </div>
   </NModal>
