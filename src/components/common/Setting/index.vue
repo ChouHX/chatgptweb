@@ -81,13 +81,13 @@ const show = computed({
           </template>
           <IMG />
         </NTabPane>
-        <NTabPane name="STT" tab="STT">
+        <!-- <NTabPane name="STT" tab="STT">
           <template #tab>
             <SvgIcon class="text-lg" icon="ion:image" />
             <span class="ml-2">STT</span>
           </template>
           <AudioRecorder />
-        </NTabPane>
+        </NTabPane> -->
       </NTabs>
     </div>
   </NModal>
