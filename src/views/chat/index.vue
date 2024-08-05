@@ -15,6 +15,8 @@ import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { useChatStore, usePromptStore, useSettingStore } from '@/store'
 import { GenerateImages, fetchChatAPIProcess } from '@/api'
 import { t } from '@/locales'
+import AudioRecoder from "@/components/common/Setting/STT.vue";
+
 
 let controller = new AbortController()
 const openLongReply = import.meta.env.VITE_GLOB_OPEN_LONG_REPLY === 'true'
@@ -429,6 +431,12 @@ onUnmounted(() => {
   if (loading.value)
     controller.abort()
 })
+const handleRecordingEnded = (message: string) => {
+  prompt.value = message
+  if (inputRef.value) {
+    inputRef.value.focus()
+  }
+}
 </script>
 
 <template>
@@ -497,6 +505,12 @@ onUnmounted(() => {
               <SvgIcon icon="ri:chat-history-line" />
             </span>
           </HoverButton>
+          <AudioRecoder @recordingEnded="handleRecordingEnded"/>
+          <!-- <HoverButton @click="toggleUsingContext">
+            <span class="text-xl text-[#4f555e] dark:text-white">
+              <SvgIcon icon="ant-design:audio-outlined" />
+            </span>
+          </HoverButton> -->
           <NAutoComplete v-model:value="prompt" :options="searchOptions" :render-label="renderOption">
             <template #default="{ handleInput, handleBlur, handleFocus }">
               <NInput
